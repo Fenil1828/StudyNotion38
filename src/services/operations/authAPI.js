@@ -80,7 +80,8 @@ export function sendOTP(email , navigate){
         }
         catch(error){
             console.log("sendotp api error " , error)
-            toast.error("Could Not Send OTP")
+            // toast.error("Could Not Send OTP")
+              toast.error("You Have Already Signup. Please Login")
         }
         dispatch(setLoading(false))
         toast.dismiss(toastId)
