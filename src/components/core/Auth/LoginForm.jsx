@@ -30,6 +30,14 @@ function LoginForm() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
+
+      // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(email)){
+            toast.error("Please enter a valid email address");
+            return;
+        }
+    
     dispatch(login(email, password, navigate))
   }
 
