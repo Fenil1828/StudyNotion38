@@ -41,10 +41,23 @@ function SignupForm(){
         }))
     }
 
-
-    //form submit event
+      //form submit event
     const handleOnSubmit = (e) => {
         e.preventDefault()
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(email)){
+            toast.error("Please enter a valid email address");
+            return;
+        }
+
+        // Password validation
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if(!passwordRegex.test(password)){
+            toast.error("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+            return;
+        }
 
         if(password !== confirmPassword){
             toast.error("Password Do Not Match")
@@ -65,6 +78,30 @@ function SignupForm(){
         //send otp for the verification
         dispatch(sendOTP(formData.email, navigate))
     }
+
+    //form submit event
+    // const handleOnSubmit = (e) => {
+    //     e.preventDefault()
+
+    //     if(password !== confirmPassword){
+    //         toast.error("Password Do Not Match")
+    //         return
+    //     }
+
+    //     const singupData = {
+    //         ...formData,
+    //         accountType,
+    //     }
+
+
+        
+    // // Setting signup data to state
+    // // To be used after otp verification
+    //     dispatch(setSignupData(singupData))
+
+    //     //send otp for the verification
+    //     dispatch(sendOTP(formData.email, navigate))
+    // }
 
 
 
