@@ -1,4 +1,4 @@
-const BASE_URL = "https://study-notion38-f.vercel.app/api/v1"
+const BASE_URL = "https://study-notion38-b.vercel.app/api/v1"
 
 export const categories = {
     CATEGORIES_API : BASE_URL + "/course/showAllCategories",
