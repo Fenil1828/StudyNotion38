@@ -1,4 +1,4 @@
-const User = require("../models/User");
+ const User = require("../models/User");
 const OTP = require("../models/OTP");
 const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
@@ -175,7 +175,7 @@ exports.signUp = async (req , res) => {
         res.status(200).json({
             success:true,
             message:"User is registered Successfully",
-            // user,
+            user,
         });
     }
     catch(error){
@@ -255,8 +255,8 @@ exports.login = async (req,res) => {
             //create cookies and send response
             res.cookie("token" , token , options).status(200).json({
                 success:true,
-                // token,
-                // user,
+                token,
+                user,
                 message:"Logged in Successfully",
             })
 
@@ -475,8 +475,8 @@ exports.googleLogin = async (req, res) => {
 
     res.cookie("token", token, options).status(200).json({
       success: true,
-      // token,
-      // user,
+      token,
+      user,
       message: "Google Login Success",
     });
 
