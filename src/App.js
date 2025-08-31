@@ -33,6 +33,7 @@ import Error from "./Pages/Error";
 import CourseDetails from "./Pages/CourseDetails";
 import ViewCourse from "./Pages/ViewCourse";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
+import Ai from "./components/core/Course/Ai";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <div className="mb-[64px] ">
         <Navbar/>
+         <Ai />
       </div>
       
 
