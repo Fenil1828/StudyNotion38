@@ -220,7 +220,7 @@ return(
 
                     <input 
                     required
-                    type="text" 
+                    type={showConfirmPassword ? "text" : "password"} 
                     name="confirmPassword" 
                     value={confirmPassword}
                     onChange={handleChange}
