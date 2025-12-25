@@ -1,45 +1,3 @@
-// import React from 'react'
-
-// const IconBtn = (
-//     {
-//         text,
-//         onClick,
-//         children,
-//         disabled,
-//         outline = false,
-//         customClasses,
-//         type
-//     }
-// ) => {
-
-//   return (
-//     <button
-//      disabled={disabled}
-//      onClick={onClick}
-//      className={`flex items-center ${outline ? "border border-yellow-50 bg-transparent" : "bg-yellow-50"}
-//      cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 ${customClasses}
-//      `}
-//      type={type}
-//      text={text}
-//     >
-//         {
-//             children ? (
-//                 <>
-//                     <span className={`${outline && "text-yellow-50"}`}>
-//                         {text}
-//                     </span>
-//                     {children}
-//                 </>
-//             ) : (text)
-//         }
-
-//     </button>
-//   )
-// }
-
-// export default IconBtn
-
-
 import React from 'react'
 
 const IconBtn = (
@@ -53,13 +11,13 @@ const IconBtn = (
         type
     }
 ) => {
-   return (
-    <button 
+
+  return (
+    <button
      disabled={disabled}
      onClick={onClick}
-     className={`flex items-center justify-center ${outline ? "border border-yellow-50 bg-transparent" : "bg-yellow-50"}
-     cursor-pointer gap-x-1 sm:gap-x-2 rounded-md py-2 px-3 sm:px-5 font-semibold text-richblack-900 
-     text-sm sm:text-base min-w-0 whitespace-nowrap overflow-hidden ${customClasses}
+     className={`flex items-center ${outline ? "border border-yellow-50 bg-transparent" : "bg-yellow-50"}
+     cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 ${customClasses}
      `}
      type={type}
      text={text}
@@ -67,36 +25,19 @@ const IconBtn = (
         {
             children ? (
                 <>
-                    <span className={`${outline && "text-yellow-50"} truncate`}>
+                    <span className={`${outline && "text-yellow-50"}`}>
                         {text}
                     </span>
-                    <span className="flex-shrink-0">
-                        {children}
-                    </span>
+                    {children}
                 </>
-            ) : (
-                <span className="truncate">{text}</span>
-            )
+            ) : (text)
         }
-     </button>
+
+    </button>
   )
 }
 
 export default IconBtn
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // src/components/common/IconBtn.js
 // import React from 'react';

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4000/api/v1"
+const BASE_URL = "https://study-notion38-b.vercel.app/api/v1"
 
 export const categories = {
     CATEGORIES_API : BASE_URL + "/course/showAllCategories",
@@ -10,7 +10,7 @@ export const categories = {
 export const endpoints = {
 LOGIN_API: BASE_URL + "/auth/login",
 SENDOTP_API : BASE_URL + "/auth/sendotp",
-SIGNUP_API : BASE_URL + "/auth/signup",
+SIGNUP_API : BASE_URL + "/auth/signUp",
 RESETPASSTOKEN_API: BASE_URL + "/auth/reset-password-token",
 RESETPASSWORD_API: BASE_URL + "/auth/reset-password",
  GOOGLE_LOGIN_API: BASE_URL + "/auth/google-login",

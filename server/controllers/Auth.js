@@ -1,4 +1,4 @@
-const User = require("../models/User");
+ const User = require("../models/User");
 const OTP = require("../models/OTP");
 const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
@@ -188,129 +188,6 @@ exports.signUp = async (req , res) => {
     }
 }
 
-
-// //signup handler
-// exports.signUp = async (req , res) => {
-//     try{
-//         //data fetch
-//         const {
-//             firstName,
-//             lastName,
-//             email,
-//             password,
-//             confirmPassword,
-//             accountType,
-//             contactNumber,
-//             otp
-//         } = req.body;
-
-//         //validation
-//         if(!firstName || !lastName || !email || !password || !confirmPassword || !otp){
-//             return res.status(403).json({
-//                 success:false,
-//                 message:"All Fields are required",
-//             });
-//         }
-
-//         // Email validation
-//         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//         if(!emailRegex.test(email)){
-//             return res.status(400).json({
-//                 success:false,
-//                 message:"Please enter a valid email address",
-//             });
-//         }
-
-//         // Password validation
-//         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-//         if(!passwordRegex.test(password)){
-//             return res.status(400).json({
-//                 success:false,
-//                 message:"Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-//             });
-//         }
-
-//         //2 password match karlo
-//         if(password !== confirmPassword){
-//             return res.status(400).json({
-//                 success:false,
-//                 message:"Password and confirmPassword Value Does not match",
-//             })
-//         }
-
-//         //check user already exists
-//         const existingUser = await User.findOne({email});
-//         if(existingUser){
-//             return res.status(400).json({
-//                 success:false,
-//                 message:"User is already registered",
-//             })
-//         }
-
-//         //find most recent otp stored for the user
-//         const recentOtp = await OTP.find({email}).sort({createdAt:-1}).limit(1);
-//         console.log("recent otp is : ", recentOtp);
-
-//         //validate otp
-//         if(recentOtp.length == 0){
-//             return res.status(400).json({
-//                 success:false,
-//                 message:"OTP NOT FOUND",
-//             });
-//         }else if(otp !== recentOtp[0].otp){
-//             return res.status(400).json({
-//                 success:false,
-//                 message:"Invalid Otp",
-//             })
-//         }
-
-//         //Hash Password
-
-//         const hashedPassword = await bcrypt.hash(password , 10);
-
-//         //entry created in DB
-
-//         const profileDetail = await Profile.create({
-//             gender:null,
-//             dateOfBirth:null,
-//             about:null,
-//             contactNumber:null,
-//         })
-
-//         //from dicebear name
-
-//         // JavaScript example
-//         const encodedSeed = encodeURIComponent(`${firstName} ${lastName}`);
-//         const url = `https://api.dicebear.com/5.x/initials/svg?seed=${encodedSeed}`;
-        
-//         const user = await User.create({
-//             firstName,
-//             lastName,
-//             email,
-//             contactNumber,
-//             password:hashedPassword,
-//             accountType:accountType,
-//             additionalDetails:profileDetail._id,
-//             image:url,
-//         })
-
-//         //retuen res
-
-//         res.status(200).json({
-//             success:true,
-//             message:"User is registered Successfully",
-//             user,
-//         });
-//     }
-//     catch(error){
-//         console.error(error);
-//         console.log(error);
-//         return res.status(500).json({
-//             success:false,
-//             message:"User Cannot be registered Please try again",
-//         });
-//     }
-// }
 
 
 //Login Handler
@@ -514,7 +391,6 @@ exports.changePassword = async (req,res) => {
 
 //  google
 const { OAuth2Client } = require('google-auth-library');
-const { default: toast } = require("react-hot-toast");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 

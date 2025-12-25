@@ -587,9 +587,6 @@
 // export default Navbar;
 
 
-
-
-
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -608,7 +605,6 @@ const Navbar = () => {
     const navigate = useNavigate();
     const { token } = useSelector((state) => state.auth);
     const { user } = useSelector((state) => state.profile);
-    console.log("user is in navbar : " , user);
     const { totalItems } = useSelector((state) => state.cart);
     const location = useLocation();
     const profileRef = useRef(null);

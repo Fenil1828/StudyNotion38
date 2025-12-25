@@ -4,11 +4,10 @@ const router = express.Router();
 //import controller and middleware
 const{
     login,
-    // signUp,
+    signUp,
     sendOTP,
     changePassword,
-    googleLogin,
-    signUp
+    googleLogin
 } = require("../controllers/Auth");
 
 const {

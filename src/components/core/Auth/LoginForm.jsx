@@ -2,6 +2,7 @@ import { useState } from "react"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 import { login } from "../../../services/operations/authAPI"
 import GoogleOAuthButton from "./GoogleOAuthButton"
@@ -30,6 +31,14 @@ function LoginForm() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
+
+      // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(email)){
+            toast.error("Please enter a valid email address");
+            return;
+        }
+    
     dispatch(login(email, password, navigate))
   }
 

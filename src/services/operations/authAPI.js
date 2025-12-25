@@ -81,8 +81,7 @@ export function sendOTP(email , navigate){
         catch(error){
             console.log("sendotp api error " , error)
             // toast.error("Could Not Send OTP")
-            toast.error("You Have Already Signup. Please Login")
-          
+              toast.error("You Have Already Signup. Please Login")
         }
         dispatch(setLoading(false))
         toast.dismiss(toastId)
@@ -133,68 +132,6 @@ export function signUp(
         toast.dismiss(toastId)
     }
 }
-
-// export function signUp(
-//     accountType,
-//     firstName,
-//     lastName,
-//     email,
-//     password,
-//     confirmPassword,
-//     otp,
-//     navigate
-// ) {
-//     return async (dispatch) => {
-//         const toastId = toast.loading("Loading...")
-//         dispatch(setLoading(true))
-//         try{
-//             // Email validation
-//             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-//             if(!emailRegex.test(email)){
-//                 toast.error("Please enter a valid email address");
-//                 dispatch(setLoading(false));
-//                 toast.dismiss(toastId);
-//                 return;
-//             }
-
-//             // Password validation
-//             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-//             if(!passwordRegex.test(password)){
-//                 toast.error("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character");
-//                 dispatch(setLoading(false));
-//                 toast.dismiss(toastId);
-//                 return;
-//             }
-
-//             const response = await apiConnector("POST" , SIGNUP_API, {
-//                 accountType,
-//                 firstName,
-//                 lastName,
-//                 email,
-//                 password,
-//                 confirmPassword,
-//                 otp,
-//             })
-
-//             console.log("signup api response" , response)
-
-//             if(!response.data.success){
-//                 throw new Error(response.data.message)
-//             }
-//             toast.success("Signup Successful")
-//             navigate("/login")
-//         }
-//         catch(error){
-//             console.log("Signup api error.. ",error)
-//             toast.error("Signup Failed")
-//             navigate("/signup")
-
-//         }
-//         dispatch(setLoading(false))
-//         toast.dismiss(toastId)
-//     }
-// }
-
 
 //get reset password
 
@@ -282,6 +219,7 @@ export function logout(navigate){
 
 
 // google
+
 export function googleLogin(tokenId, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
