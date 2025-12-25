@@ -56,7 +56,7 @@ function App() {
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <div className="mb-[64px] ">
         <Navbar/>
-         <Ai />
+         {/* <Ai /> */}
       </div>
       
 
@@ -66,7 +66,7 @@ function App() {
         <Route path="/about" element={<About/>}></Route>
         <Route path="/contact" element={<Contact/>}></Route>       
         <Route path="/courses/:courseId" element={<CourseDetails />}></Route>
-        <Route path="/catalog/:catalogName" element={<Catalog/>}></Route>
+        {/* <Route path="/catalog/:catalogName" element={<Catalog/>}></Route> */}
         
         {/* Open Route - for Only Non Logged in User */}
         <Route path="login" element={
@@ -129,10 +129,10 @@ function App() {
 
 
               <Route path="dashboard/my-profile" element={<MyProfile/>} />
-              <Route path="dashboard/settings" element={<Settings />} />
+              {/* <Route path="dashboard/settings" element={<Settings />} /> */}
 
 
-             {
+             {/* {
                user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
                 <Route path="/dashboard/instructor" element={<Instructor/>} />
@@ -142,10 +142,10 @@ function App() {
                 <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>} />
               </>
             )
-          }
+          } */}
 
                 
-          {
+          {/* {
             user?.accountType === ACCOUNT_TYPE.STUDENT && (
               <>
               <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
@@ -156,12 +156,12 @@ function App() {
               
               </>
             )
-          }
+          } */}
           </Route>
 
 
 
-        <Route
+        {/* <Route
           element={
             <PrivateRoute>
               <ViewCourse />
@@ -176,7 +176,7 @@ function App() {
               />
             </>
           )}
-        </Route>
+        </Route> */}
 
           {/* For the watching course lectures */}
 
