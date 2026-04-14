@@ -13,14 +13,6 @@
       "dest": "/index.html"
     }
   ],
-  "env": {
-    "REACT_APP_BASE_URL": "@react_app_base_url"
-  },
-  "envs": {
-    "REACT_APP_BASE_URL": {
-      "default": "https://studynotion-backend.vercel.app/api/v1"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
