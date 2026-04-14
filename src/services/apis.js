@@ -84,3 +84,9 @@ export const courseEndpointsForSSSId = {
   // ... other endpoints
   GET_COURSE_CONTENT_API: "/course/getCourseContent", // Adjust this to your actual API endpoint
 };
+
+// AI CHATBOT ENDPOINTS
+export const chatEndpoints = {
+  CHAT_API: BASE_URL + "/chat",
+  CHAT_HEALTH_API: BASE_URL + "/chat/health",
+};
