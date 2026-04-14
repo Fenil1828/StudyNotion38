@@ -1,4 +1,4 @@
-// gemini.js - AI Chatbot with Gemini (Primary) + Groq (Fallback)
+// gemini.js - Dual API Race: Whichever responds fastest wins!
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // ===== API Configuration =====
@@ -7,20 +7,134 @@ const GROQ_API_KEY = process.env.REACT_APP_GROQ_API_KEY;
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 if (!GEMINI_API_KEY) {
-  console.warn("⚠️ REACT_APP_GEMINI_API_KEY not configured. Chatbot will use Groq or Demo mode.");
+  console.warn("⚠️ REACT_APP_GEMINI_API_KEY not configured.");
 }
 if (!GROQ_API_KEY) {
-  console.warn("⚠️ REACT_APP_GROQ_API_KEY not configured. Chatbot will use Demo mode as fallback.");
+  console.warn("⚠️ REACT_APP_GROQ_API_KEY not configured.");
 }
 
 const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
 
-// ===== Demo Responses (Fallback) =====
-function getDemoResponse(prompt) {
-  const demoResponses = {
-    "web dev": "# Getting Started with Web Development\n\n## Phase 1: Core Technologies\n\nStart with the **holy trinity** of web development:\n\n1. **HTML** - Structure\n   - Defines content and layout\n   - Learn: `<div>`, `<p>`, `<h1>`, forms\n\n2. **CSS** - Styling\n   - Colors, fonts, layout\n   - Learn: Flexbox, Grid, Responsive Design\n\n3. **JavaScript** - Interactivity\n   - Makes websites interactive\n   - Learn: Variables, Functions, DOM\n\n## Recommendation\nStart with **HTML + CSS** for 2 weeks, then add **JavaScript**. Build projects as you learn!",
-    "hello": "Hi there! 👋 I'm your AI assistant. I can help you learn web development, answer questions, and guide your learning journey.\n\n**What would you like to learn about?**\n- Web Development (HTML, CSS, JavaScript)\n- Front-end frameworks (React, Vue)\n- Backend basics\n- Project ideas",
-    "default": "I understand! Could you provide more details about what you'd like to learn? For example:\n- **Web Development Basics** - HTML, CSS, JavaScript\n- **Frontend Framework** - React, Vue.js\n- **Backend** - Node.js, Python\n- **Specific Project** - Building a portfolio site\n\nWhat interests you most?"\n  };\n  \n  for (const [key, value] of Object.entries(demoResponses)) {\n    if (key !== \"default\" && prompt.toLowerCase().includes(key)) {\n      return value;\n    }\n  }\n  return demoResponses[\"default\"];\n}\n\n// ===== Gemini API Handler =====\nasync function generateGeminiResponse_Internal(prompt) {\n  try {\n    if (!prompt || prompt.trim() === \"\") {\n      throw new Error(\"Prompt cannot be empty\");\n    }\n    if (!genAI) {\n      throw new Error(\"Gemini API not configured\");\n    }\n\n    console.log(\"🤖 [Gemini] Processing:\", prompt.substring(0, 50) + \"...\");\n    \n    const model = genAI.getGenerativeModel({ model: \"gemini-2.5-flash\" });\n    const result = await model.generateContent(prompt);\n\n    if (!result || !result.response) {\n      throw new Error(\"Invalid response from Gemini API\");\n    }\n\n    const text = result.response.text();\n    console.log(\"✅ [Gemini] Response received:\", text.substring(0, 50) + \"...\");\n    return text;\n  } catch (error) {\n    console.error(\"❌ [Gemini] Error:\", error.message);\n    throw error;\n  }\n}\n\n// ===== Groq API Handler =====\nasync function generateGroqResponse(prompt) {\n  try {\n    if (!prompt || prompt.trim() === \"\") {\n      throw new Error(\"Prompt cannot be empty\");\n    }\n    if (!GROQ_API_KEY) {\n      throw new Error(\"Groq API key not configured\");\n    }\n\n    console.log(\"🚀 [Groq] Processing:\", prompt.substring(0, 50) + \"...\");\n\n    const response = await fetch(GROQ_API_URL, {\n      method: \"POST\",\n      headers: {\n        \"Content-Type\": \"application/json\",\n        \"Authorization\": `Bearer ${GROQ_API_KEY}`\n      },\n      body: JSON.stringify({\n        model: \"mixtral-8x7b-32768\",\n        messages: [\n          {\n            role: \"user\",\n            content: prompt\n          }\n        ],\n        max_tokens: 1024,\n        temperature: 0.7\n      })\n    });\n\n    if (!response.ok) {\n      const errorData = await response.json();\n      throw new Error(`Groq API Error: ${response.status} - ${errorData.error?.message || \"Unknown error\"}`);\n    }\n\n    const data = await response.json();\n    \n    if (!data.choices || !data.choices[0] || !data.choices[0].message) {\n      throw new Error(\"Invalid response format from Groq API\");\n    }\n\n    const text = data.choices[0].message.content;\n    console.log(\"✅ [Groq] Response received:\", text.substring(0, 50) + \"...\");\n    return text;\n  } catch (error) {\n    console.error(\"❌ [Groq] Error:\", error.message);\n    throw error;\n  }\n}\n\n// ===== Main Export - Dual API with Fallback =====\nexport async function generateGeminiResponse(prompt) {\n  try {\n    // Try Gemini first\n    console.log(\"1️⃣ Attempting Gemini API...\");\n    return await generateGeminiResponse_Internal(prompt);\n  } catch (geminiError) {\n    console.warn(\"⚠️ Gemini failed, trying Groq...\");\n    \n    try {\n      // Fallback to Groq\n      console.log(\"2️⃣ Attempting Groq API...\");\n      return await generateGroqResponse(prompt);\n    } catch (groqError) {\n      console.warn(\"⚠️ Groq failed, using Demo mode...\");\n      \n      // Demo mode as last resort\n      console.log(\"3️⃣ Using Demo Mode\");\n      return getDemoResponse(prompt);\n    }\n  }\n}
+// ===== Gemini API Handler =====
+async function callGeminiAPI(prompt) {
+  try {
+    if (!prompt || prompt.trim() === "") {
+      throw new Error("Prompt cannot be empty");
+    }
+    if (!genAI) {
+      throw new Error("Gemini API not configured");
+    }
+
+    console.log("🤖 [Gemini] Processing:", prompt.substring(0, 50) + "...");
+    
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const result = await model.generateContent(prompt);
+
+    if (!result || !result.response) {
+      throw new Error("Invalid response from Gemini API");
+    }
+
+    const text = result.response.text();
+    console.log("✅ [Gemini] Response received:", text.substring(0, 50) + "...");
+    return { source: "Gemini", text };
+  } catch (error) {
+    console.error("❌ [Gemini] Error:", error.message);
+    throw error;
+  }
+}
+
+// ===== Groq API Handler =====
+async function callGroqAPI(prompt) {
+  try {
+    if (!prompt || prompt.trim() === "") {
+      throw new Error("Prompt cannot be empty");
+    }
+    if (!GROQ_API_KEY) {
+      throw new Error("Groq API key not configured");
+    }
+
+    console.log("🚀 [Groq] Processing:", prompt.substring(0, 50) + "...");
+
+    const response = await fetch(GROQ_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "mixtral-8x7b-32768",
+        messages: [
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        max_tokens: 1024,
+        temperature: 0.7
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Groq API Error: ${response.status} - ${errorData.error?.message || "Unknown error"}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error("Invalid response format from Groq API");
+    }
+
+    const text = data.choices[0].message.content;
+    console.log("✅ [Groq] Response received:", text.substring(0, 50) + "...");
+    return { source: "Groq", text };
+  } catch (error) {
+    console.error("❌ [Groq] Error:", error.message);
+    throw error;
+  }
+}
+
+// ===== Main Export - RACE: Both APIs at once, fastest wins! =====
+export async function generateGeminiResponse(prompt) {
+  try {
+    // Send requests to BOTH APIs simultaneously
+    console.log("🏁 Racing both APIs...");
+    console.log("📤 [Gemini] Starting...");
+    console.log("📤 [Groq] Starting...");
+
+    const geminiPromise = callGeminiAPI(prompt).catch(err => {
+      console.warn("⚠️ Gemini failed, waiting for Groq...");
+      return Promise.reject(err);
+    });
+
+    const groqPromise = callGroqAPI(prompt).catch(err => {
+      console.warn("⚠️ Groq failed, waiting for Gemini...");
+      return Promise.reject(err);
+    });
+
+    // Return whichever response comes first!
+    try {
+      const result = await Promise.race([geminiPromise, groqPromise]);
+      console.log(`🏆 [${result.source}] Won the race!`);
+      return result.text;
+    } catch (firstError) {
+      // If first one fails, try the other
+      console.warn("⚠️ First API failed, trying fallback...");
+      try {
+        const result = await Promise.any([geminiPromise, groqPromise]);
+        console.log(`🏆 [${result.source}] Fallback succeeded!`);
+        return result.text;
+      } catch (allError) {
+        // Both failed
+        console.error("❌ Both APIs failed!");
+        throw new Error("Both Gemini and Groq APIs failed. Please check your API keys and internet connection.");
+      }
+    }
+  } catch (error) {
+    console.error("❌ Chatbot Error:", error.message);
+    throw error;
+  }
+}
 
 
 
