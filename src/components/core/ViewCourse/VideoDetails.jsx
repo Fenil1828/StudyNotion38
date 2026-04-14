@@ -19,7 +19,6 @@ const VideoDetails = () => {
 
   const { courseId, sectionId, subSectionId } = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
   const playerRef = useRef(null)
   const dispatch = useDispatch()
   const { token } = useSelector((state) => state.auth)

@@ -586,7 +586,7 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { FaDollarSign, FaGraduationCap, FaBook, FaChartLine, FaArrowRight } from "react-icons/fa"
+import { FaGraduationCap, FaBook, FaChartLine, FaArrowRight } from "react-icons/fa"
 import { FaIndianRupeeSign } from "react-icons/fa6";
 
 import { fetchInstructorCourses } from "../../../services/operations/courseDetailsAPI"

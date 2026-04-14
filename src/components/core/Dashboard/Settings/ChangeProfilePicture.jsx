@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { CiLineHeight } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateDisplayPicture } from '../../../../services/operations/SettingsAPI'
 import IconBtn from '../../../common/IconBtn'

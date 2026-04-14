@@ -747,10 +747,6 @@ export default function InstructorChart({ courses }) {
   // Prepare chart data
   useEffect(() => {
     if (courses && courses.length > 0) {
-      const labels = courses.map((course) => course.courseName);
-      const totalStudents = courses.map(
-        (course) => course.totalStudentsEnrolled
-      );
       
       // Filter out courses with 0 students for better visualization
       const filteredData = courses.filter(course => course.totalStudentsEnrolled > 0);
