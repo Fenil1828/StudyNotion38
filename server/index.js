@@ -1,3 +1,8 @@
+// Load environment variables FIRST before anything else
+const dotenv = require("dotenv");
+const path = require("path");
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 const express = require("express");
 const app = express();
 
@@ -6,7 +11,7 @@ const userRoutes = require("./routes/User");
 const profileRoutes = require("./routes/Profile");
 const paymentRoutes = require("./routes/Payment");
 const courseRoutes = require("./routes/Course");
-
+const chatRoutes = require("./routes/Chat");
 const contactUsRoute = require("./routes/Contact");
 
 const {cloudinaryConnect} = require("./config/cloudinary");
@@ -20,10 +25,6 @@ const cors = require("cors");
 
 //uploading multi-media
 const fileUpload = require("express-fileupload");
-
-//env fike
-const dotenv = require("dotenv");
-dotenv.config();
 
 const PORT = process.env.PORT || 4000;
 
@@ -49,6 +50,7 @@ app.use("/api/v1/profile" , profileRoutes);
 app.use("/api/v1/course" , courseRoutes);
 app.use("/api/v1/payment" , paymentRoutes);
 app.use("/api/v1/reach", contactUsRoute);
+app.use("/api/v1/chat", chatRoutes);
 
 //default
 app.get("/" , (req,res) => {

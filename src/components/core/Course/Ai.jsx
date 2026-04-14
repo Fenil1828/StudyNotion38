@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ChatbotIcon from './ChatbotIcon';
 import "./Ai.css";
 import ChatMessage from './ChatMessage';
-import { generateGeminiResponse } from "./gemini"; // Your utility
+import { generateGeminiResponse } from "./gemini"; // Backend Groq API
 
 const Ai = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,9 +44,10 @@ const Ai = () => {
         { role: "model", text: aiText }
       ]);
     } catch (error) {
+      console.error("Chatbot error:", error);
       setChatHistory(history => [
         ...history.slice(0, -1),
-        { role: "model", text: "Sorry, an error occurred!" }
+        { role: "model", text: "Sorry, an error occurred! Please try again." }
       ]);
     }
   };
