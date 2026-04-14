@@ -2,20 +2,34 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "framework": "react",
+  "framework": "create-react-app",
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "server/index.js"
+      "src": "^/api/(.*)",
+      "dest": "https://studynotion-backend.vercel.app/api/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html",
-      "status": 200
+      "dest": "/index.html"
     }
   ],
   "env": {
-    "REACT_APP_BASE_URL": "@react_app_base_url",
-    "NODE_ENV": "production"
-  }
+    "REACT_APP_BASE_URL": "@react_app_base_url"
+  },
+  "envs": {
+    "REACT_APP_BASE_URL": {
+      "default": "https://studynotion-backend.vercel.app/api/v1"
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ]
 }
