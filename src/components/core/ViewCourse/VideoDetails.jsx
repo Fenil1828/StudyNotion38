@@ -13,13 +13,7 @@ import IconBtn from "../../common/IconBtn"
 
 const VideoDetails = () => {
 
-    const {
-    courseContent,
-    currentSection,
-    currentSubSection,
-    loading: contentLoading,
-    error: contentError
-  } = useSelector((state) => state.courseContent)
+    // Removed unused courseContent variables
 
 
 
@@ -42,26 +36,20 @@ const VideoDetails = () => {
       if (!courseSectionData.length) return
       if (!courseId && !sectionId && !subSectionId) {
         navigate(`/dashboard/enrolled-courses`)
-
-        console.log("Course id is : " , courseId)
-        console.log("Section id is : " , sectionId._id)
       } else {
-        // console.log("courseSectionData", courseSectionData)
         const filteredData = courseSectionData.filter(
           (course) => course._id === sectionId
         )
-        // console.log("filteredData", filteredData)
       
         const filteredVideoData = filteredData?.[0]?.subSection.filter(
           (data) => data._id === subSectionId
         )
-        // console.log("filteredVideoData", filteredVideoData)
         setVideoData(filteredVideoData[0])
         setPreviewSource(courseEntireData.thumbnail)
         setVideoEnded(false)
       }
     })()
-  }, [courseSectionData, courseEntireData, location.pathname])
+  }, [courseSectionData, courseEntireData, courseId, navigate, sectionId, subSectionId])
 
   // check if the lecture is the first video of the course
   const isFirstVideo = () => {
