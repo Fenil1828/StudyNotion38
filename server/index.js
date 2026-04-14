@@ -44,6 +44,26 @@ app.use(fileUpload({useTempFiles:true,tempFileDir:"/tmp"}))
 //cloudinary connect
 cloudinaryConnect();
 
+//serve static files from build folder with correct MIME types
+app.use(express.static(path.join(__dirname, '../build'), {
+  setHeaders: (res, filepath) => {
+    if (filepath.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css; charset=utf-8');
+    } else if (filepath.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    } else if (filepath.endsWith('.json')) {
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    } else if (filepath.endsWith('.svg')) {
+      res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+    }
+  }
+}));
+
+// SPA route - serve index.html for all unmatched routes
+app.get(/^(?!\/api\/).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+});
+
 //routes
 app.use("/api/v1/auth" , userRoutes);
 app.use("/api/v1/profile" , profileRoutes);
